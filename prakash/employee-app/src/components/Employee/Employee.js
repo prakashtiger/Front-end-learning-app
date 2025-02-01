@@ -4,8 +4,12 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import Edit from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import {
+ deleteEmployee
+} from "../../db";
 
 export default function Employee({ employee }) {
+  const handleDelete = () => deleteEmployee(employee.id);
   return (
     <Box component={'section'} sx={{
         display: "flex",
@@ -70,7 +74,7 @@ export default function Employee({ employee }) {
             <Edit color="primary" sx={{ fontSize: 30 }} />
           </Button>
         </Link>
-        <Button color="inherit" >
+        <Button color="inherit" onClick={handleDelete}>
           <DeleteIcon color="error" sx={{ fontSize: 30 }} />
         </Button>
       </Box>
