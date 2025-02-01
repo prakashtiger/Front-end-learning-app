@@ -83,16 +83,26 @@ function App() {
   );
 }
 function Form() {
-  const [name, setName] = useState();
+  const [name, setName] = useState('');
+  const [status, setStatus] = useState('init');
+  if(status === 'success') {
+    return (<>Right answer</>)
+  }
   const handlTextChange = (e) => {
     setName(e.target.value)
     console.log(e.target.value);
   }
-  const handleFormSubmit = () => {
-    if(name !== 'lima'){
 
+  async function handleSubmitForm(event) {
+    event.preventDefault();
+    try {
+      await submitForm(name);
+      setStatus('success');
+    }catch(e) {
+      setStatus('failed')
     }
-  };
+  }
+  
   function submitForm(answer) {
     // Pretend it's hitting the network.
     return new Promise((resolve, reject) => {
@@ -107,9 +117,10 @@ function Form() {
     });
   }
   return (
-    <><form onSubmit={handleFormSubmit}>
+    <><form onSubmit={handleSubmitForm}>
     <input type="text" value={name} onChange={handlTextChange} />
-    <button></button>
+    <button type="submit" disabled={name?.length === 0}>Submit</button>
+    {status === 'failed' && <div>Good Try but correct answer try again</div>}
     </form>
     </>
   )
