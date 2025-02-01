@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.scss";
+import Header from "./components/Header/Header";
+import { Outlet } from "react-router";
+import { useLocation } from 'react-router-dom';
 
 function App() {
+  const location = useLocation();
+  const renderHeader = () => {
+    switch (location.pathname) {
+      case '/edit':
+        return 'Edit Employee';
+      case '/add':
+        return 'Add Employee';
+      default:
+        return 'Employee List';
+    }
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header title={renderHeader()} className="header" />
+      <Outlet />
+    </>
   );
 }
 
